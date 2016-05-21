@@ -1,0 +1,22 @@
+<h2>book</h2>
+
+<form action="/booking" method="get">
+<select name="events" id="event-selector" placeholder="Events...">
+
+    <option>Events...</options>
+  <% @events.each do |event| %>
+    <option name='id' value="<%=event.id%>">
+      <%= event.subject %>
+    </option>
+  <% end %>
+</select>
+
+  <input id="get-tkts-btn" name="eventId" type="submit" value="Purchase">
+
+</form>
+
+
+
+
+  <h2>TO DO: save the users booking in a table. seat number and seat amounts and price.</h2>
+<a href="/">next</a>
