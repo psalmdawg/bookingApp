@@ -10,7 +10,7 @@ $( document ).on('ready', function() {
         console.log($("#event-selector").val())
 
         $('#get-tkts-btn').show();
-
+});
         // if dom contains seats already, then remove them and rebuild them
         if ($( "#seat-container").has( ".seat" )) {
               $( ".seat" ).remove()
@@ -59,4 +59,3 @@ $( document ).on('ready', function() {
         console.log(event.target.id);
       });
   });
-});
