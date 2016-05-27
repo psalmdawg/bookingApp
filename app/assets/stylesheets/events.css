@@ -1,0 +1,51 @@
+#event-info-container-short{
+  max-width: 25%;
+  height: 275px;
+  /*border: white 1px solid;*/
+  display: inline-block;
+  overflow:  hidden;
+  padding: 10px;
+}
+
+/*#events-form{
+  display: inline-block;
+}*/
+
+#event-info-btn{
+  margin-top: 40px;
+  float: left;
+
+}
+#get-tkts-btn{
+  padding: 10px 15px;
+    background: #b21a1a;
+    color: white;
+
+}
+#event-time-container{
+  margin-top:10px;
+}
+#event-speaker-title{
+  font-weight: bolder;
+  color: #b21a1a;
+}
+
+#event-subject-container{
+  /*border: white 1px solid;*/
+  margin-top: 20px;
+  height: 75px;
+}
+
+#event-image-controller{
+  float:right;
+  margin-right: 20px;
+}
+
+#bookings-title{
+  height:100px;
+  /*padding: auto;*/
+  padding-top: 25px;
+  font-size:30px;
+  font-weight: 500;
+
+}

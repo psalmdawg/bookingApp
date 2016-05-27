@@ -2,21 +2,28 @@
 <html>
 <head>
   <title>Booking</title>
+  <link rel="icon" href="https://pbs.twimg.com/profile_images/616323696601468930/SkNd2ppU.png">
+
+  <link href='https://fonts.googleapis.com/css?family=Francois+One|Varela+Round|Archivo+Narrow|Quicksand|Catamaran|Questrial|Rokkitt|Comfortaa:400,300&subset=latin,tamil,greek,cyrillic-ext' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <nav>
+
+
+<body class="<%= @home_page ? 'homepage' : ''%>">
+
+  <nav id="nav-bar" class="nav-default">
   <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="seats.html">Book</a></li>
-    <li><a href="about.html">About</a></li>
+    <li><a href="/">Home<img class="nav-button" src="assets/button.png" alt=""></a></li>
+    <li><a href="/events">Book<img class="nav-button" src="assets/button.png" alt=""></a></li>
+    <li><a href="/about">About<img class="nav-button" src="assets/button.png" alt=""></a></li>
+    <li><a href="/bio">Speakers<img class="nav-button" src="assets/button.png" alt=""></a></li>
   </ul>
-    <div id="seat-choice">
+    <!-- <div id="seat-choice">
       <div id='seat-selection'></div>
       <div id='number_seats'></div>
-    </div>
+    </div> -->
     <div id = "selected-event"></div>
   </nav>
 

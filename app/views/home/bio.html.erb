@@ -1,0 +1,15 @@
+
+
+<% @speakers.each do |speaker| %>
+  <div id="speaker-container">
+    <div id="speaker-bio-title">
+      <%=speaker.name%>
+    </div>
+    <div id="speaker-img-box">
+      <img id="speaker-img" src="<%=speaker.image_url%>" alt="">
+    </div>
+    <div id="speaker-bio">
+      <%=speaker.bio%>
+    </div>
+  </div>
+  <% end %>

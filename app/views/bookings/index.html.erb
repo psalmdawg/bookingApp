@@ -1,27 +1,175 @@
-<h2>bookings</h2>
+  <div id="event-info-container">
+    <div id="main-topic"><%=@subject%></div>
+    <div id="speaker_name"><%=@speaker%><img class="speaker-event-image" src="/assets/default-avatar.png"></div>
+    <div id="event_description"><%=@description%></div>
+    <div id="event_cost">$<%=@price%>
+      <div id="event_location">Room <%=@venue%></div>
+    </div>
+  </div>
+<div id="left-right-container">
 
-<h1>Topic: <%= @subject %></h1>
+  <div id = "left">
 
-<p>Capacity: <%=@seats%> seats</p>
-<p>Speaker: <%=@speaker%></p>
-<p>Description:  <%=@description%></p>
-<p>Cost: <%=@price%></p>
-<p>Room: <%=@venue%></p>
-
-
-<form action="">
-  <input type="text">
-</form>
-
-
-<h3>booking requires the name of the attendee</h3>
-<h3>it requires a record of the seat number</h3>
-<h3>it requires seat numbers to be tallyed as booked</h3>
-<h3></h3>
-
-
-<div id="flex-container">
-  <div id="seat-container">
+    <form class="form-style" action="/order" method ="post">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <label for="field1">
+      <input type="text" name="customer_name" placeholder="name">
+      </label>
+      <label for="field2">
+      <input type="email" name="customer_email" placeholder="email">
+      </label>
+      <label for="field3">
+      <input type="text" name="customer_phone" placeholder="phone">
+      </label>
+      <input type="hidden" id="seat_order" name="seat_order">
+      <input type="hidden" id="event_id" name="event_id" value ='<%= @event_id %>'>
+      <input type="hidden" id="seat_numbers" name="seat_numbers">
+      <input type="hidden" id="requested_seating" name="requested_seating">
+      <!-- <input type="submit" id="confirmation_btn" value="Confirm Order" > -->
+      <label>
+      <span>&nbsp;</span><input type="submit" id="confirmation_btn" value="Confirm Order" style="display: none;" />
+      </label>
+    </form>
+    <div id="checkout-cart">
+      <div id="tickets-sold">Tickets: <span id='number_seats'></span></div>
+      <div id="total-cost">Total $<span id="cost"></span></div>
+    </div>
 
   </div>
+
+  <div id="right">
+    <div id= "seat_warning"></div>
+
+    <div id="flex-container">
+      <div id="seat-container">
+      </div>
+    </div>
+  </div>
+
+
 </div>
+<script>
+
+$( document ).on('ready', function() {
+
+  var reserved_seats = <%= @reserved_seats %>;
+  console.log(reserved_seats)
+  console.log(reserved_seats.length)
+  var reserved_seats_new = [];
+  for(i=0;i<reserved_seats.length;i++){
+    var tesla = reserved_seats[i]
+    for(j=0;j<tesla.length;j++){
+      reserved_seats_new.push(tesla[j])
+    }
+  };
+  console.log(reserved_seats_new)
+  console.log(tesla)
+
+  if ( <%=@available_seats%> == 0) {
+   $("#seat_warning").html('This event is sold out');
+ } else {
+
+  var numOfSeats = <%=@seats%>
+  //creates the seats on the page
+  for(i=1;i<=numOfSeats;i++){
+    var seating = document.createElement("div");
+      seating.className = "seat";
+      seating.id = i;
+      seating.idName = i;
+    var seatNumbers = document.createTextNode(i);
+      seating.appendChild(seatNumbers)
+    var element = document.getElementById("seat-container");
+      element.appendChild(seating);
+  };
+    //changes the seat color on click to highlight that which is reserved
+  $(".seat").on("click", function() {
+
+    //can't change the color if the seat is booked
+    if( $(this).hasClass( "booked" ) ) {
+      } else {
+      $(this).toggleClass('back-red');
+    }
+  });
+
+  function reservations (){
+    var hodorArray =[]
+    for(i=0;i<100;i++){
+      if(reserved_seats_new[i] === ','){}else{
+      var reserved = reserved_seats_new[i]
+      hodorArray.push(reserved_seats_new[i])
+      // console.log(hodor)
+      console.log(reserved_seats_new.length)
+      // $( "#"+reserved ).css( "background-color", "red" )
+      $( "#"+reserved ).toggleClass("booked")
+
+      };
+    };
+  };
+reservations ();
+
+  var seatArray =[];
+//changes the background color of seats when selected
+//and stores its number in the array of seats
+  $('.seat').click(function() {
+
+
+    var seatNumber = $(this).text();
+    var found = $.inArray(seatNumber, seatArray);
+
+    if( $(this).hasClass( "booked" ) ) {
+      } else {
+
+      if(found === -1) {
+        seatArray.push(seatNumber);
+      }
+       else {
+        seatArray.splice(found, 1) //find index of the seatnumber and removes it from the seat array WHEN THE SEAT IS UNSELECETED
+      };
+    }
+    var numOfSeats = seatArray.length;
+
+    //sets the record of the seats booked and allows user to toggle between using them or not
+    if ( $('#number_seats').html == 0){
+      // $("#confirmation_btn").toggle();
+
+      $('#confirmation_btn').prop('disabled', true);
+      $('#number_seats').html("");
+      $('#seat-selection').html("");
+    }else{
+      // $('#confirmation_btn').prop('disabled', true);
+      // $("#confirmation_btn").toggle();
+      $('#number_seats').html(numOfSeats);
+      $('#seat-selection').html(seatArray)
+    };
+
+      var orderTotal = numOfSeats*<%=@price%>
+      $('#cost').html(orderTotal);
+
+      var $seatsRequested = numOfSeats;
+      var $seatNumbers = $('#seat-selection').text(); //or seatArray?
+
+      $("#seat_order").val($seatsRequested );
+      $("#seat_numbers").val($seatNumbers );
+      $("#requested_seating").val(seatArray);
+
+      //checks if there are available seats.
+      function checkSeats (){
+
+        if (<%=@available_seats%> < $seatsRequested ){
+          $("#confirmation_btn").hide();
+          $("#confirmation_btn").unbind("click");
+          $("#seat_warning").html('Sorry, there is no only ' + <%=@available_seats%> + ' seats available!');
+
+        } else {
+          $("#confirmation_btn").show();
+        }
+      }
+      checkSeats();
+  });
+ }
+});
+
+
+
+
+</script>

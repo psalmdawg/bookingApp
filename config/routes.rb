@@ -2,12 +2,16 @@ Rails.application.routes.draw do
 
 
     get '/' => 'home#index'
-    get '/booking' => 'events#booking'
+    get '/about' => 'home#about'
+    get '/events' => 'events#index'
+    get '/bio' => 'home#bio'
     # get '/book' => 'home#event'
 
 
     resources :events
     resources :bookings
+    resources :purchase
+    resources :order
 
 
   # The priority is based upon order of creation: first created -> highest priority.

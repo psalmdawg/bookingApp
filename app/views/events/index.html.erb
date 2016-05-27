@@ -1,22 +1,30 @@
-<h2>book</h2>
 
-<form action="/bookings" method="get">
-<select name="events" id="event-selector" placeholder="Events...">
+<div id="bookings-title">A comprehensive list of this years exciting presentations</div>
 
-    <option>Events...</options>
   <% @events.each do |event| %>
-    <option name='id' value="<%=event.id%>">
-      <%= event.subject %>
-    </option>
+
+    <div id="event-info-container-short">
+      <div id ="event-subject-container">
+        <%=event.subject%>
+      </div>
+      <div id="event-speaker-title">
+        <%=event.speaker%>
+        <div id="event-image-controller"><img class="speaker-event-image" src="/assets/default-avatar.png">
+        </div>
+      </div>
+
+        <div id ="event-time-container">
+          <%=event.time%>
+        </div>
+
+
+      <div id="event-info-btn">
+        <form action="/bookings" method="get">
+          <input type="hidden" name = "event_id" value= "<%=event.id%>">
+          <input id="get-tkts-btn" name="eventId" type="submit" value="Book">
+        </form>
+        <!-- <div id ="event-sold-out"></div> -->
+      </div>
+    </div>
+
   <% end %>
-</select>
-
-  <input id="get-tkts-btn" name="eventId" type="submit" value="Purchase">
-
-</form>
-
-
-
-
-  <h2>TO DO: save the users booking in a table. seat number and seat amounts and price.</h2>
-<a href="/">next</a>

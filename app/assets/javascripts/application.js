@@ -15,4 +15,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require events.js
+//= require events
+//= require navbar
